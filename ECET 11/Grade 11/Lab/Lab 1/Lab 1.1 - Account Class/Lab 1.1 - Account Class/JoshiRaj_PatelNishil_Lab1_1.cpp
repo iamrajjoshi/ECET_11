@@ -1,3 +1,7 @@
+//Lab 1_1
+//Raj Joshi & Nishil Patel
+//Written by Raj Joshi
+
 #include<iostream>
 using namespace std;
 
@@ -21,7 +25,7 @@ Account::Account(double balance) {
 		this->balance = balance;
 	else {
 		this->balance = 0;
-		cout << "Account balance cannot be initially negative" << endl;
+		cout << "Account created with insufficient funds" << endl;
 	}
 }
 
@@ -36,7 +40,7 @@ void Account::debit(double amount) {
 	if (amount <= balance && amount >= 0)
 		balance -= amount;
 	else 
-		cout << "Debit amount exceeded account balance or is negative." << endl;
+		cout << "Debit amount exceeded account balance or is negative" << endl;
 }
 
 
@@ -49,38 +53,36 @@ int main() {
 	
 	while (true) {
 		char choice;
-		cout << endl << "Currenct balance is " << acc.getBalance() << endl;
-		cout << "Would you like to (c)reate a new account, (a)dd money, (w)ithdraw money, or (e)xit? ";
+		cout << "Currenct balance is " << acc.getBalance() << endl;
+		cout << "Would you like to (c)reate a new account, (a)dd money, or (w)ithdraw money or (e)xit? ";
 		cin >> choice;
 		
 		switch (choice) {
+		case 'c':
+			system("cls");
+			cout << "Enter initial account balance: ";
+			cin >> amount;
+			acc = Account(amount);
+			break;
+
 		case 'a':
-			cout << "How much would you like to add?" << endl;
+			cout << "How much would you like to add? ";
 			cin >> amount;
 			acc.credit(amount);
 			break;
 
 		case 'w':
-			cout << "How much would you like to withdraw?" << endl;
+			cout << "How much would you like to withdraw? ";
 			cin >> amount;
 			acc.debit(amount);
 			break;
 
 		case 'e':
 			return 0;
-			break;
-
-		case 'c':
-			cout << "Enter initial account balance: ";
-			cin >> amount;
-			acc = Account(amount);
-			break;
 
 		default:
 			cout << "Invalid input." << endl;
 		}
-
 	}
-
 	return 0;
 }

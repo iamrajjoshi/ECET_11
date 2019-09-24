@@ -1,3 +1,7 @@
+//Lab 1_2
+//Raj Joshi & Nishil Patel
+//Written by Raj Joshi
+
 #include<iostream>
 #include<string>
 using namespace std;
@@ -5,16 +9,16 @@ using namespace std;
 class Invoice {
 private:
 	string description;
-	int partNumber;
+	string partNumber;
 	int quantity;
 	double price;
 
 public:
-	Invoice(string, int, int, double);
+	Invoice(string, string, int, double);
 	string getDescription();
 	void setDescription(string);
-	int getPartNumber();
-	void setPartNumber(int);
+	string getPartNumber();
+	void setPartNumber(string);
 	int getQuantity();
 	void setQuantity(int);
 	double getPrice();
@@ -22,7 +26,7 @@ public:
 	double getInvoiceAmount();
 };
 
-Invoice::Invoice(string description, int partNumber, int quantity, double price) {
+Invoice::Invoice(string description, string partNumber, int quantity, double price) {
 	setDescription(description);
 	setPartNumber(partNumber);
 	setQuantity(quantity);
@@ -37,11 +41,11 @@ void Invoice::setDescription(string description) {
 	this->description = description;
 }
 
-int Invoice::getPartNumber() {
+string Invoice::getPartNumber() {
 	return partNumber;
 }
 
-void Invoice::setPartNumber(int partNumber) {
+void Invoice::setPartNumber(string partNumber) {
 	this->partNumber = partNumber;
 }
 
@@ -68,7 +72,7 @@ double Invoice::getInvoiceAmount() {
 
 int main() {
 	string description;
-	int partNumber;
+	string partNumber;
 	int quantity;
 	double price;
 
@@ -88,7 +92,7 @@ int main() {
 
 	while (true) {
 		char choice;
-		cout << "Would you like to (m)odify the invoice, (g)et a property, or (e)xit?" << endl;
+		cout << endl << "Would you like to (m)odify the invoice, (g)et a property, or (e)xit? ";
 		cin >> choice;
 
 		switch (choice) {
@@ -97,7 +101,7 @@ int main() {
 			break;
 
 		case 'm':
-			cout << "Would you like to modify the (d)escription, (p)art number, (q)uantity, or p(r)ice per item?" << endl;
+			cout << endl << "Would you like to modify the (d)escription, (p)art number, (q)uantity, p(r)ice per item, or (a)ll? ";
 			cin >> choice;
 
 			switch (choice) {
@@ -125,16 +129,29 @@ int main() {
 				cin >> quantity;
 				inv.setQuantity(quantity);
 				break;
-
+			case 'a':
+				cout << "Enter new item description: ";
+				cin.ignore();
+				getline(cin, description);
+				inv.setDescription(description);
+				cout << "Enter new part number: ";
+				cin >> partNumber;
+				inv.setPartNumber(partNumber);
+				cout << "Enter new price per item: ";
+				cin >> price;
+				inv.setPrice(price);
+				cout << "Enter new quantity: ";
+				cin >> quantity;
+				inv.setQuantity(quantity);
+				break;
 			default:
 				cout << "Invalid choice. Please try again." << endl;
 			}
 			break;
 
 		case 'g':
-			cout << "Would you like to get the (d)escription, (p)art number, (q)uantity, p(r)ice per item, or (i)nvoice amount?" << endl;
+			cout << endl << "Would you like to get the (d)escription, (p)art number, (q)uantity, p(r)ice per item, (i)nvoice amount, or (a)ll? ";
 			cin >> choice;
-			choice = tolower(choice);
 			cout << endl;
 
 			switch (choice) {
@@ -158,6 +175,14 @@ int main() {
 				cout << "Invoice amount: $" << inv.getInvoiceAmount() << endl;
 				break;
 
+			case 'a':
+				cout << "Item description: " << inv.getDescription() << endl;
+				cout << "Part number: " << inv.getPartNumber() << endl;
+				cout << "Price per item: $" << inv.getPrice() << endl;
+				cout << "Quantity: " << inv.getQuantity() << endl;
+				cout << "Invoice amount: $" << inv.getInvoiceAmount() << endl;
+				break;
+
 			default:
 				cout << "Invalid choice. Please try again." << endl;
 			}
@@ -166,10 +191,7 @@ int main() {
 		default:
 			cout << "Invalid choice. Please try again." << endl;
 		}
-
 	}
-	
-	
 	return 0;
 }
 
