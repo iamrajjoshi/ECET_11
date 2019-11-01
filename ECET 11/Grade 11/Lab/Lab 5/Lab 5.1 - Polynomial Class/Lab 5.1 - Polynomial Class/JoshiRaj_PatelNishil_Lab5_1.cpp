@@ -1,215 +1,140 @@
-#include <iostream>
-#include <string>
+// Lab 4_3
+//Raj Joshi & Nishil Patel
+//Written by Nishil Patel
+
+#include<iostream>
 using namespace std;
 
 class Polynomial
 {
 private:
-	int x4, x3, x2, x1, con;
-	string oper;
+	int c[5];
 public:
-	Polynomial();
-	void setPolynomial(int X4, int X3, int X2, int X1, int C);
-	void setBinomial(int X1, int C);
-	Polynomial getPolynomial();
+	Polynomial(int[]);
+	void setCoefficients(int[]);
+	int* getCoefficients();
+	void displayPolynomial();
 	Polynomial operator+(Polynomial&);
 	Polynomial operator-(Polynomial&);
 	Polynomial operator*(Polynomial&);
-	Polynomial operator+=(Polynomial&);
-	void display();
+	void operator+=(Polynomial&);
 };
 
-Polynomial::Polynomial() : x4(0), x3(0), x2(0), x1(0), con(0) {};
-
-Polynomial Polynomial::getPolynomial() {
-	Polynomial Poly;
-	Poly.x4 = x4;
-	Poly.x3 = x3;
-	Poly.x2 = x2;
-	Poly.x1 = x1;
-	Poly.con = con;
-	return Poly;
+Polynomial::Polynomial(int c[]) {
+	for (int i = 0; i < 5; i++)
+		this->c[i] = c[i];
 }
 
-void Polynomial::setPolynomial(int E4, int E3, int E2, int E1, int C) {
-	x4 = E4;
-	x3 = E3;
-	x2 = E2;
-	x1 = E1;
-	con = C;
+void Polynomial::setCoefficients(int c[]) {
+	for (int i = 0; i < 5; i++)
+		this->c[i] = c[i];
 }
 
-void Polynomial::setBinomial(int x, int c) {
-	x1 = x; 
-	con = c;
-}
+int* Polynomial::getCoefficients() {return c;}
 
-Polynomial Polynomial::operator+(Polynomial& tem) {
-	Polynomial answer;
-	x4 = x4 + tem.x4; x3 = x3 + tem.x3; x2 = x2 + tem.x2; x1 = x1 + tem.x1; con = con + tem.con;
-	answer.x4 = x4;
-	answer.x3 = x3;
-	answer.x2 = x2;
-	answer.x1 = x1;
-	answer.con = con;
-	return answer;
-}
-
-Polynomial Polynomial::operator+=(Polynomial& b) {
-	Polynomial answer;
-	answer.x4 = x4 + b.x4;
-	answer.x3 = x3 + b.x3;
-	answer.x2 = x2 + b.x2;
-	answer.x1 = x1 + b.x1;
-	answer.con = con + b.con;
-	return answer;
-}
-
-Polynomial Polynomial::operator-(Polynomial& b) {
-	Polynomial answer;
-	answer.x4 = x4 - b.x4;
-	answer.x3 = x3 - b.x3;
-	answer.x2 = x2 - b.x2;
-	answer.x1 = x1 - b.x1;
-	answer.con = con - b.con;
-	return answer;
-}
-
-Polynomial Polynomial::operator*(Polynomial& tem) {
-	Polynomial answer;
-	answer.x2 = x1 * tem.x1;
-	answer.x1 = x1 * tem.con + con * tem.x1;
-	answer.con = con * tem.con;
-	return answer;
-}
-
-void Polynomial::display() {
-	string output = "";
-	if (x4 != 0) {
-		output += to_string(x4);
-		output += "x^4 + ";
+void Polynomial::displayPolynomial()
+{
+	bool first = true;
+	for (int i = 0; i < 5; i++) {
+		if (c[i] != 0) {
+			if (c[i] > 0 && !first)
+				cout << " + ";
+			if (c[i] < 0)
+				cout << " - ";
+			if (abs(c[i]) != 1 || i == 4)
+				cout << abs(c[i]);
+			if (4 - i != 0) {
+				first = false;
+				cout << "x";
+				if (4 - i != 1)
+					cout << "^" << 4 - i;
+			}
+		}
 	}
-	if (x3 != 0) {
-		output += to_string(x3);
-		output += "x^3 + ";
-	}
-	if (x2 != 0) {
-		output += to_string(x2);
-		output += "x^2 + ";
-	}
-	if (x1 != 0) {
-		output += to_string(x1);
-		output += "x + ";
-	}
-	if (con != 0) {
-		output += to_string(con);
-	}
-	if (output[output.size() - 2] == '+') {
-		output = output.substr(0, output.size() - 2);
-	}
-	if (output == "") {
-		output = "0";
-	}
-	cout << output << endl;
+	cout << endl;
 }
 
+Polynomial Polynomial::operator+(Polynomial& a) {
+	int nP[5];
+	for (int i = 0; i < 5; i++)
+		nP[i] = c[i] + a.c[i];
+	return Polynomial(nP);
+}
+
+Polynomial Polynomial::operator-(Polynomial& s) {
+	int nP[5];
+	for (int i = 0; i < 5; i++)
+		nP[i] = c[i] - s.c[i];
+	return Polynomial(nP);
+}
+
+Polynomial Polynomial::operator*(Polynomial& m) {
+	int nP[5];
+	nP[0] = 0;
+	nP[1] = 0;
+	nP[2] = c[3] * m.c[3];
+	nP[3] = c[3] * m.c[4] + c[4] * m.c[3];
+	nP[4] = c[4] * m.c[4];
+	return Polynomial(nP);
+}
+
+void Polynomial::operator+=(Polynomial& a) {
+	for (int i = 0; i < 5; i++)
+		c[i] += a.c[i];
+}
 
 int main()
 {
 	while (true) {
-		Polynomial pol1, pol2, pol3;
-		string of;
-		cout << "Enter operation: ";
-		cin >> of;
+		int c[5];
 
-		if (of == "+")
-		{
-			int ab4, ab3, ab2, ab1, con;
-			cout << "Enter polynomial 1: ";
-			cin >> ab4;
-			cin >> ab3;
-			cin >> ab2;
-			cin >> ab1;
-			cin >> con;
-			pol1.setPolynomial(ab4, ab3, ab2, ab1, con);
-			cout << "Enter polynomial 2: ";
-			cin >> ab4;
-			cin >> ab3;
-			cin >> ab2;
-			cin >> ab1;
-			cin >> con;
-			pol2.setPolynomial(ab4, ab3, ab2, ab1, con);
-			pol3 = pol1 + pol2;
-			cout << "Poly1 + Poly2: ";
-			pol3.display();
-		}
-		if (of == "+=")
-		{
-			int ab4, ab3, ab2, ab1, con;
-			cout << "Enter polynomial 1: ";
-			cin >> ab4;
-			cin >> ab3;
-			cin >> ab2;
-			cin >> ab1;
-			cin >> con;
-			pol1.setPolynomial(ab4, ab3, ab2, ab1, con);
-			cout << "Enter polynomial 2: ";
-			cin >> ab4;
-			cin >> ab3;
-			cin >> ab2;
-			cin >> ab1;
-			cin >> con;
-			pol2.setPolynomial(ab4, ab3, ab2, ab1, con);
-			pol3 = (pol1 += pol2);
-			cout << "Poly1 += Poly2: ";
-			pol3.display();
-		}
-		if (of == "-")
-		{
-			int ab4, ab3, ab2, ab1, con;
-			cout << "Enter polynomial 1: ";
-			cin >> ab4;
-			cin >> ab3;
-			cin >> ab2;
-			cin >> ab1;
-			cin >> con;
-			pol1.setPolynomial(ab4, ab3, ab2, ab1, con);
-			cout << "Enter polynomial 2: ";
-			cin >> ab4;
-			cin >> ab3;
-			cin >> ab2;
-			cin >> ab1;
-			cin >> con;
-			pol2.setPolynomial(ab4, ab3, ab2, ab1, con);
-			pol3 = pol1 - pol2;
-			cout << "Poly1 - Poly2: ";
-			pol3.display();
-		}
-		if (of == "*")
-		{
-			int ab1, con;
-			cout << "Enter binomial 1: ";
-			cin >> ab1;
-			cin >> con;
-			pol1.setBinomial(ab1, con);
-			cout << "Enter binomial 2: ";
-			cin >> ab1;
-			cin >> con;
-			pol2.setBinomial(ab1, con);
-			pol3 = pol1 * pol2;
-			cout << "Poly1 * Poly2: ";
-			pol3.display();
-		}
-
-		cout << endl << endl;
-
-		int x;
-		cout << "Continue? (enter 0 to continue, or press 1 to exit): ";
-		cin >> x;
-		if (x == 1)
-			break;
+		cout << "Enter first polynomial: ";
+		for (int i = 0; i < 5; i++)
+			cin >> c[i];
+		Polynomial p1(c);
+		cout << "P1: ";
+		p1.displayPolynomial();
 		cout << endl;
-	}
 
+		cout << "Enter second polynomial: ";
+		for (int i = 0; i < 5; i++)
+			cin >> c[i];
+		Polynomial p2(c);
+		cout << "P2: ";
+		p2.displayPolynomial();
+		cout << endl;
+
+		cout << "P1 + P2 = ";
+		(p1 + p2).displayPolynomial();
+
+		cout << "P1 - P2 = ";
+		(p1 - p2).displayPolynomial();
+
+		cout << "P1 += P2 = ";
+		p1 += p2;
+		(p1).displayPolynomial();
+
+		int bin1[5] = { 0, 0, 0 }, bin2[5] = { 0, 0, 0 };
+		cout << "\nEnter 2 binomials in order to multiply them (linear term followed by a space followed by constant term).\n" << endl;
+
+		cout << "Enter first binomial: ";
+		cin >> bin1[3] >> bin1[4];
+		Polynomial b1(bin1);
+		b1.displayPolynomial();
+		cout << endl;
+
+		cout << "Enter second binomial: ";
+		cin >> bin2[3] >> bin2[4];
+		Polynomial b2(bin2);
+		b2.displayPolynomial();
+		cout << endl;
+
+		cout << "P1 * P2 = ";
+		(b1 * b2).displayPolynomial();
+		cout << endl;
+
+		system("pause");
+		system("cls");
+	}
 	return 0;
 }

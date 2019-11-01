@@ -1,3 +1,7 @@
+//Lab 3_1
+//Raj Joshi & Nishil Patel
+//Written by Raj Joshi
+
 #include <iostream>
 #include <vector>
 using namespace std;
@@ -48,6 +52,6 @@ int main() {
 	cout << "$800 - $899:  " << counter[6] << endl;
 	cout << "$900 - $999:  " << counter[7] << endl;
 	cout << "$1000 - over: " << counter[8] << endl;
-	return 1;
+	return 0;
 	
 }

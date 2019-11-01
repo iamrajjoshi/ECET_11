@@ -90,6 +90,7 @@ int main() {
 			cout << "First name: " << e.getFirstName() << endl;
 			cout << "Last name: " << e.getLastName() << endl;
 			cout << "Salary: " << e.getSalary() << endl;
+			cout << "10% increase: " << e.getSalary() * 1.1 << endl;
 			break;
 
 		case 'e':

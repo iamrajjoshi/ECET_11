@@ -9,31 +9,28 @@ using namespace std;
 
 class Complex
 {
-	float real;
-	float imaginary;
+	double real;
+	double imaginary;
 public:
-	Complex(float, float);
-	Complex add(const Complex&);
+	Complex(double, double);
+	Complex add(Complex);
 	Complex subtract(const Complex&);
 	void show_val();
 
 };
 
-Complex::Complex(float r = 1, float i = 1)
+Complex::Complex(double r = 1, double i = 1)
 {
 	real = r; imaginary = i;
 }
-
-Complex Complex::add(const Complex& num2)
+Complex Complex::add(Complex num2)
 {
 	return Complex(real + num2.real, imaginary + num2.imaginary);
 }
-
 Complex Complex::subtract(const Complex& num2)
 {
 	return Complex(real - num2.real, imaginary - num2.imaginary);
 }
-
 void Complex::show_val()
 {
 	cout << "(" << real << ", " << imaginary << ")";
@@ -43,13 +40,13 @@ int main()
 {
 	while (true)
 	{
-		float r, i;
-		cout << "Enter Real Part of Complex Number 1 (integer only): "; cin >> r;
-		cout << "\nEnter Imaginary Part of Complex Number 1 (integer only): "; cin >> i;
+		double r, i;
+		cout << "Enter Real Part of Complex Number 1: "; cin >> r;
+		cout << "\nEnter Imaginary Part of Complex Number 1: "; cin >> i;
 		Complex num1(r, i);
 
-		cout << "\n\nEnter Real Part of Complex Number 2 (integer only): "; cin >> r;
-		cout << "\nEnter Imaginary Part of Complex Number 2 (integer only): "; cin >> i;
+		cout << "\n\nEnter Real Part of Complex Number 2: "; cin >> r;
+		cout << "\nEnter Imaginary Part of Complex Number 2: "; cin >> i;
 		Complex num2(r, i);
 		system("cls");
 
@@ -75,7 +72,6 @@ int main()
 		cout << endl << "Enter to Continue :)  ";
 		string pause;
 		getline(cin, pause);
-		system("cls");
 	}
 	return 0;
 }

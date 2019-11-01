@@ -1,3 +1,7 @@
+//Lab 3_4
+//Raj Joshi & Nishil Patel
+//Written by Raj Joshi
+
 #include <iostream>
 #include <vector>
 using namespace std;

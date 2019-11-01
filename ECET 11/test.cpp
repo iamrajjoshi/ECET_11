@@ -1,168 +1,211 @@
+//Garrett Seo 
+//Complex Class
+
 #include <iostream>
-#include<string>
-#include<Windows.h>
-#include <iomanip>
-#include<vector>
-#include<cmath>
-#include<algorithm>
+#include <cmath>
+#include <math.h>
 using namespace std;
-
-class MonkeyEatReport {
+#define PI 3.14159265
+class Complex {
 private:
-	float food[3][7];
+	double real;
+	double imaginary;
+	double angle;
+	double magnitude;
+
 public:
-	void setMonkeyData(float food[][7]);
-	void dispTotalEaten();
-	void dispAvgWeekly();
-	void dispAvgDaily();
-	void dispLeastEaten();
-	void dispMostEaten();
+	Complex(double x, double y);
+	Complex();
+	Complex operator +(Complex&);
+	Complex operator -(Complex&);
+	Complex operator *(Complex&);
+	Complex operator /(Complex&);
+	void toPolar();
+	void toRectangle();
+	void display(Complex&, Complex&);
+	Complex conjugate(Complex);
 };
-
-void printFloat(float num) {
-	if (int(num) == num)
-		cout << fixed << setprecision(0) << num;
-	else cout << fixed << setprecision(2) << num;
-	cout << fixed << setprecision(0);
-}
-
-void MonkeyEatReport::setMonkeyData(float food[][7]) {
-	for (int i = 0; i < 3; i++)
-		for (int j = 0; j < 7; j++)
-			this->food[i][j] = food[i][j];
-}
-
-void MonkeyEatReport::dispTotalEaten() {
-	cout << "Total food eaten for the week:\n";
-	for (int i = 0; i < 3; i++) {
-		float totalFood = 0;
-		for (int j = 0; j < 7; j++)
-			totalFood += food[i][j];
-		cout << "Monkey " << i + 1 << " total food intake: ";
-		printFloat(totalFood);
-		cout << " lbs" << endl;
-	}
-	cout << endl;
-}
-
-void MonkeyEatReport::dispAvgWeekly() {
-	cout << "Average food eaten for the week:\n";
-	for (int i = 0; i < 3; i++) {
-		float totalFood = 0;
-		for (int j = 0; j < 7; j++)
-			totalFood += food[i][j];
-		cout << "Monkey " << i + 1 << " average food intake: ";
-		printFloat(totalFood / 7.0);
-		cout << " lbs" << endl;
-
-	}
-	cout << endl;
-}
-
-
-
-void MonkeyEatReport::dispAvgDaily() {
-	cout << "The average amount eaten by the three monkeys:\n";
-	for (int i = 0; i < 7; i++) {
-		float totalFood = 0;
-		for (int j = 0; j < 3; j++)
-			totalFood += food[j][i];
-		cout << "The average amount eaten on day " << i + 1 << " is: ";
-		printFloat(totalFood / 3.0);
-		cout << " lbs" << endl;
-	}
-	cout << endl;
-}
-
-string numToDay(int day) {
-	switch (day) {
-	case 1:
-		return "Monday";
-	case 2:
-		return "Tuesday";
-	case 3:
-		return "Wednesday";
-	case 4:
-		return "Thursday";
-	case 5:
-		return "Friday";
-	case 6:
-		return "Saturday";
-	case 7:
-		return "Sunday";
-	}
-}
-
-void MonkeyEatReport::dispLeastEaten() {
-	float leastEaten = pow(2, 31) - 1;
-	float monkeyNumLeastEaten;
-	int dayLeastEaten;
-	cout << "Least amount of food eaten:\n";
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 7; j++) {
-			float oldLeastEaten = leastEaten;
-			leastEaten = min(leastEaten, food[i][j]);
-			if (leastEaten != oldLeastEaten) {
-				monkeyNumLeastEaten = i + 1;
-				dayLeastEaten = j + 1;
-			}
+Complex::Complex() {}
+Complex::Complex(double x, double y) {
+	real = x;
+	imaginary = y;
+	cout << "Complex number: ";
+	if (real == 0 && imaginary == 0)
+		cout << "0" << endl;
+	else if (real == 0 && imaginary != 0)
+	{
+		if (imaginary < 0)
+		{
+			cout << "-j" << -imaginary << endl;
 		}
-
-	}
-	cout << "Monkey " << monkeyNumLeastEaten << " ate the least amount of food of ";
-	printFloat(leastEaten);
-	cout << " lbs on " << numToDay(dayLeastEaten) << endl;
-	cout << endl;
-}
-
-void MonkeyEatReport::dispMostEaten() {
-	float mostEaten = 0;
-	float monkeyNumMostEaten;
-	int dayMostEaten;
-	cout << "Most amount of food eaten:\n";
-	for (int i = 0; i < 3; i++) {
-		for (int j = 0; j < 7; j++) {
-			float oldMostEaten = mostEaten;
-			mostEaten = max(mostEaten, food[i][j]);
-			if (mostEaten != oldMostEaten) {
-				monkeyNumMostEaten = i + 1;
-				dayMostEaten = j + 1;
-			}
-		}
-
-	}
-	cout << "Monkey " << monkeyNumMostEaten << " ate the most amount of food of ";
-	printFloat(mostEaten);
-	cout << " lbs on " << numToDay(dayMostEaten) << endl;
-}
-
-
-
-
-int main() {
-
-	float food[3][7];
-	float input;
-	cout << "Enter lbs of food for each monkey for the 7 days on one line starting with Monday's value (i.e. M Tu W Th F Sa Su):\n";
-
-	for (int i = 0; i < 3; i++) {
-		cout << "Enter pounds of food for monkey " << i + 1 << " (day 1 - day 7): ";
-		for (int j = 0; j < 7; j++) {
-			cin >> input;
-			food[i][j] = input;
+		else if (imaginary > 0)
+		{
+			cout << "j" << imaginary << endl;
 		}
 	}
+	else if (real != 0 && imaginary == 0)
+	{
+		cout << real << endl;
+	}
+	else if (real != 0 && imaginary != 0)
+	{
+		if (imaginary < 0)
+		{
+			cout << real << " - j" << -imaginary << endl;
+		}
+		else if (imaginary > 0)
+		{
+			cout << real << " + j" << imaginary << endl;
+		}
+	}
+}
+Complex Complex::conjugate(Complex x) {
+	Complex newconj;
+	newconj.real = x.real;
+	newconj.imaginary = -x.imaginary;
+	return newconj;
+}
+Complex Complex::operator /(Complex& b)
+{
 
-	MonkeyEatReport report;
-	report.setMonkeyData(food);
+	Complex quot;
+	Complex temp = b;
+	Complex conj = conjugate(temp);
+	Complex div = b * conj;
+	double a1, b1, a2, b2;
+	a1 = real;
+	b1 = imaginary;
+	a2 = conj.real;
+	b2 = conj.imaginary;
+	quot.real = (a1 * a2 - b1 * b2) / div.real;
+	quot.imaginary = (a1 * b2 + a2 * b1) / div.real;
+	return quot;
+}
+Complex Complex::operator *(Complex& b) {
+	double a1, b1, a2, b2;
+	a1 = real;
+	b1 = imaginary;
+	a2 = b.real;
+	b2 = b.imaginary;
+	Complex prod;
 
-	cout << "\n\t\tMonkey Eating Habit Report\n\n";
+	prod.real = a1 * a2 - b1 * b2;
+	prod.imaginary = a1 * b2 + a2 * b1;
+	return prod;
+}
+Complex Complex::operator +(Complex& b) {
+	Complex sum;
+	sum.real = real + b.real;
+	sum.imaginary = imaginary + b.imaginary;
+	return sum;
+}
+Complex Complex::operator -(Complex& b) {
+	Complex diff;
+	diff.real = real - b.real;
+	diff.imaginary = imaginary - b.imaginary;
+	return diff;
+}
+void Complex::display(Complex& one, Complex& two) {
+	Complex sum, diff, prod, quot;
+	sum = one + two;
+	cout << "\nSum: " << endl;
+	sum.toPolar();
+	sum.toRectangle();
+	cout << "\nDifference: " << endl;
+	diff = one - two;
+	diff.toPolar();
+	diff.toRectangle();
+	cout << "\nProduct: " << endl;
+	prod = one * two;
+	prod.toPolar();
+	prod.toRectangle();
+	cout << "\nQuotient: " << endl;
+	if (two.real == 0 && two.imaginary == 0)
+		cout << "Undefined" << endl;
+	else
+	{
+		prod = one / two;
+		prod.toPolar();
+		prod.toRectangle();
+	}
+}
+void Complex::toPolar() {
+	double a;
+	double m;
+	a = atan(imaginary / real) * 180 / PI;
+	if (real == 0 && imaginary == 0)
+	{
+		m = 0;
+		a = 0;
+	}
+	else if (real >= 0 && imaginary >= 0)
+	{
+	}
+	else if (real <= 0 && imaginary >= 0)
+	{
+		a = 180 + a;
+	}
+	else if (real >= 0 && imaginary <= 0)
+	{
+		a = 360 + a;
+	}
+	else if (real <= 0 && imaginary <= 0)
+	{
+		a = 180 + a;
+	}
 
-	report.dispTotalEaten();
-	report.dispAvgWeekly();
-	report.dispAvgDaily();
-	report.dispLeastEaten();
-	report.dispMostEaten();
+	angle = a;
+	m = sqrt(real * real + imaginary * imaginary);
+	magnitude = m;
+	cout << "Polar form is: Magnitude " << magnitude << " | " << angle << " degrees" << endl;
+}
+void Complex::toRectangle() {
+	cout << "Rectangular form is: ";
+	if (real == 0 && imaginary == 0)
+		cout << "0" << endl;
+	else if (real == 0 && imaginary != 0)
+	{
+		if (imaginary < 0)
+		{
+			cout << "-j" << -imaginary << endl;
+		}
+		else if (imaginary > 0)
+		{
+			cout << "j" << imaginary << endl;
+		}
+	}
+	else if (real != 0 && imaginary == 0)
+	{
+		cout << real << endl;
+	}
+	else if (real != 0 && imaginary != 0)
+	{
+		if (imaginary < 0)
+		{
+			cout << real << " - j" << -imaginary << endl;
+		}
+		else if (imaginary > 0)
+		{
+			cout << real << " + j" << imaginary << endl;
+		}
+	}
+}
+int main()
+{
+	float a1, b1, a2, b2;
+	cout << "Enter the real part of complex number 1: ";
+	cin >> a1;
+	cout << "Enter the imaginary part of complex number 1: ";
+	cin >> b1;
+	Complex one(a1, b1);
+	cout << "Enter the real part of complex number 2: ";
+	cin >> a2;
+	cout << "Enter the imaginary part of complex number 2: ";
+	cin >> b2;
+	Complex two(a2, b2);
+	Complex finish;
+	finish.display(one, two);
+	system("pause");
 
-	return 0;
+
 }
